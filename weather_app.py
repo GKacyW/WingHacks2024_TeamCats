@@ -34,7 +34,6 @@ city = "Gainesville, Florida, USA"
 unit = "C"
 military_time = False
 military_time_toggle = Button(30, 21, empty_icon)
-
 settings = False
 clock = pygame.time.Clock()
 FPS = 60
@@ -46,9 +45,9 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if (event.key == pygame.K_BACKSPACE):
-                if(settings): user_input = user_input[:-1]
+                if(settings and bar_.get_rect().collidepoint(pygame.mouse.get_pos())): user_input = user_input[:-1]
             elif (event.key >= pygame.K_a and event.key <= pygame.K_z) or pygame.K_COMMA:
-                if(settings):
+                if(settings and bar_.get_rect().collidepoint(pygame.mouse.get_pos())):
                     user_input += event.unicode
             
 
