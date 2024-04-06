@@ -1,7 +1,9 @@
 import requests
 
+api_key = 'a04ce32f6a47777c9dd312e6da67966b'
+#default settings
+
 def weather(city, unit):
-    api_key = 'a04ce32f6a47777c9dd312e6da67966b'
 
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
 
@@ -21,16 +23,7 @@ def weather(city, unit):
             tempre = round(temp, 2)
         else:
             tempre = "uh oh" 
-        print(f'temp: {tempre}')
-        
-        print(f'description: {desc}')
     else:
         print("uh oh")
 
-    #print(f'temp :{temp3}')
-
-if __name__ == "__main__":
-    weather('clearwater', 'K')
-    weather('clearwater', 'F')
-    weather('clearwater', 'C')
-   
+    return(tempre, desc)
