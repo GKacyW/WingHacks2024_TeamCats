@@ -56,11 +56,7 @@ def get_time(city):
         local_time = datetime.datetime.now(local_tz)
 
         sun_rise = sun.get_local_sunrise_time(date, local_tz)
-        sun_set = sun.get_local_sunset_time(date, local_tz)
- 
-        
-
-        
+        sun_set = sun.get_local_sunset_time(date, local_tz) 
 
         if(sun_set.hour > local_time.hour > sun_rise.hour):
             day_or_night = "day"

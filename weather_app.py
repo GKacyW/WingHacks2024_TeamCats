@@ -44,10 +44,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if (event.key == pygame.K_BACKSPACE):
-                if(settings and bar_.get_rect().collidepoint(pygame.mouse.get_pos())): user_input = user_input[:-1]
+            if (event.key == pygame.K_BACKSPACE): 
+                if(settings and bar_.get_rect().collidepoint(pygame.mouse.get_pos())): user_input = user_input[:-1] #deleting for city input
             elif (event.key >= pygame.K_a and event.key <= pygame.K_z) or pygame.K_COMMA:
-                if(settings and bar_.get_rect().collidepoint(pygame.mouse.get_pos())):
+                if(settings and bar_.get_rect().collidepoint(pygame.mouse.get_pos())): #adding for city
                     user_input += event.unicode
             
 
@@ -184,7 +184,7 @@ while running:
 
         screen.blit(insert_city_bar, (140, 78))
         AddText(screen, 20, user_input,(0,0,0), 140, 78)
-        AddText(screen, 20, "Change City :P", (0,0,0), 140, 55)
+        AddText(screen, 20, "Change City :P", weather_color, 140, 55)
         
 
 
