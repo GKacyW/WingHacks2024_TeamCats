@@ -1,8 +1,0 @@
-//
-// Created by Angela Li on 4/5/24.
-//
-
-#ifndef WINGHACKS2024_TEAMCATS_HELLO_H
-#define WINGHACKS2024_TEAMCATS_HELLO_H
-
-#endif //WINGHACKS2024_TEAMCATS_HELLO_H
