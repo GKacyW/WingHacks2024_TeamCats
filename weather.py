@@ -62,7 +62,7 @@ def get_time(city):
 
         if(sun_set.hour > local_time.hour > sun_rise.hour):
             day_or_night = "day"
-            print(sun_rise, sun_set)
+            
         else:
             day_or_night = "night"
 
@@ -73,6 +73,3 @@ def get_time(city):
         print("uh oh")
 
 
-
-if __name__ == "__main__":
-    print(get_time("Clearwater"))
