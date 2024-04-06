@@ -12,8 +12,8 @@ running = True
 
 weather_icons = {
     "clear sky": {"day": "images/clear.png", "night": "images/clear night.png"},
-    "few clouds": {"day": "images/scatted clouds.png", "night": "images/scatted clouds night.png"},
-    "scatted clouds": {"day": "images/scatted clouds.png", "night": "images/scatted clouds night.png"},
+    "few clouds": {"day": "images/scattered clouds.png", "night": "images/scattered clouds night.png"},
+    "scatted clouds": {"day": "images/scattered clouds.png", "night": "images/scattered clouds night.png"},
     "broken clouds":{"day": "images/cloudy.png", "night": "images/cloudy night.png"},
     "shower rain": {"day": "images/rain shower.png", "night": "images/rain shower night.png"},
     "rain": {"day": "images/rain.png", "night": "images/rain night.png"},
@@ -90,6 +90,8 @@ while running:
             
         else:
             time_thing = font_size_7.render('PM', False, weather_color)
+        
+        screen.blit(time_thing, (360,50))
             
     date_display = font_size_25.render(date, False, weather_color)
     time_display = font_size_30.render(time, False, weather_color)
@@ -104,22 +106,27 @@ while running:
         sun = font_size_25.render(sunrise_time.strftime("%H:%M"), False, weather_color)
         sun_pic = pygame.image.load('images/sunrise.png').convert_alpha()
 
-
+    #click_pop_up = Rect()
 
 
     screen.blit(bar_,(25,10))
     screen.blit(weather, (30,20))
     screen.blit(settings_icon, (353,10))
-    
     screen.blit(date_display, (260, 78))
     screen.blit(sun_pic, (135, 85))
     screen.blit(weather_description, (135,60))
     screen.blit(sun, (145, 87))
     screen.blit(time_display, (296, 50))
     screen.blit(temp_display, (135,25))
-    screen.blit(time_thing, (360,50))
+    
 
     
     
     pygame.display.flip()
-    
+
+run_popup = False
+while run_popup:
+       for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run_pop = False
+            running = True
