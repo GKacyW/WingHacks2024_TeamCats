@@ -11,15 +11,13 @@ running = True
 # weather specific code
 
 weather_icons = {
-    "clear sky": {"day": "images/clear.png", "night": "images/clear night.png"},
-    "few clouds": {"day": "images/scattered clouds.png", "night": "images/scattered clouds night.png"},
-    "scatted clouds": {"day": "images/scattered clouds.png", "night": "images/scattered clouds night.png"},
-    "broken clouds":{"day": "images/cloudy.png", "night": "images/cloudy night.png"},
-    "shower rain": {"day": "images/rain shower.png", "night": "images/rain shower night.png"},
-    "rain": {"day": "images/rain.png", "night": "images/rain night.png"},
-    "thunderstorm": {"day": "images/thunderstorm.png", "night": "images/thunderstorm night.png"},
-    "snow": {"day": "images/snow.png", "night": "images/snow night.png"},
-    "mist": {"day": "images/mist.png", "night": "images/mist night.png"}
+    "Clear": {"day": "images/clear.png", "night": "images/clear night.png"},
+    "Clouds": {"day": "images/scattered clouds.png", "night": "images/scattered clouds night.png"},
+    "Drizzle": {"day": "images/rain shower.png", "night": "images/rain shower night.png"},
+    "Rain": {"day": "images/rain.png", "night": "images/rain night.png"},
+    "Thunderstorm": {"day": "images/thunderstorm.png", "night": "images/thunderstorm night.png"},
+    "Snow": {"day": "images/snow.png", "night": "images/snow night.png"},
+    "Atmosphere": {"day": "images/mist.png", "night": "images/mist night.png"}
 }
 bar = {
     "day": "images/day_bar.png",
@@ -30,20 +28,30 @@ exit_icon = pygame.image.load('images/exit.png')
 selected = pygame.image.load('images/selected button.png')
 selected_icon = pygame.transform.scale(selected, (15,15))
 empty = pygame.image.load('images/empty button.png')
+insert_city_bar = pygame.image.load('images/input city.png')
 empty_icon = pygame.transform.scale(empty, (15,15))
 city = "Gainesville, Florida, USA"
 unit = "C"
 military_time = False
-military_time_toggle = Button(100, 21, empty_icon)
+military_time_toggle = Button(30, 21, empty_icon)
 
 settings = False
 clock = pygame.time.Clock()
 FPS = 60
+user_input = ""
 while running:
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if (event.key == pygame.K_BACKSPACE):
+                if(settings): user_input = user_input[:-1]
+            elif (event.key >= pygame.K_a and event.key <= pygame.K_z) or pygame.K_COMMA:
+                if(settings):
+                    user_input += event.unicode
+            
+
 
     
     
@@ -53,6 +61,7 @@ while running:
     #do weather determinations
         weather_data = get_weather(city, unit)
         weather_condition = weather_data[1]
+        weather_description = weather_data[2]
         temp = str(weather_data[0]) + unit
 
         #time determinations
@@ -119,7 +128,7 @@ while running:
         AddText(screen, 25, local_time.strftime("%Y-%m-%d"),weather_color, 260, 78)
         AddText(screen, 30, local_time.strftime("%H:%M"), weather_color, 296, 50)
         AddText(screen, 45, temp, weather_color, 135, 25)
-        AddText(screen, 18, weather_condition, weather_color, 135, 60)
+        AddText(screen, 18, weather_description, weather_color, 135, 60)
     
         setting_button = Button(353, 10, settings_icon)
         
@@ -132,17 +141,18 @@ while running:
         exit_button = Button(353, 85, exit_icon)
         if exit_button.draw(screen):
             settings = False
+            city = user_input
     
         
-        if(unit == "F"): coordinates_for_paw = (100, 42)
-        elif(unit == "C"): coordinates_for_paw = (100, 60)
-        elif(unit == "K"): coordinates_for_paw = (100, 78)
+        if(unit == "F"): coordinates_for_paw = (30, 42)
+        elif(unit == "C"): coordinates_for_paw = (30, 60)
+        elif(unit == "K"): coordinates_for_paw = (30, 78)
 
-        far_button = Button(100, 42, empty_icon)
-        celcius_button = Button(100, 60, empty_icon)
-        kelvin_button = Button(100, 78, empty_icon)
+        far_button = Button(30, 42, empty_icon)
+        celcius_button = Button(30, 60, empty_icon)
+        kelvin_button = Button(30, 78, empty_icon)
 
-        screen.blit(empty_icon, (100, 21))
+        screen.blit(empty_icon, (30, 21))
         
         
 
@@ -163,14 +173,23 @@ while running:
         
         
         
-        screen.blit(empty_icon, (100, 42))
-        AddText(screen, 18, "Fahrenheit", weather_color, 120, 42)
-        screen.blit(empty_icon, (100, 60))
-        AddText(screen, 18, "Celcius", weather_color, 120, 60)
-        screen.blit(empty_icon, (100, 78))
-        AddText(screen, 18, "Kelvin", weather_color, 120, 78)
+        screen.blit(empty_icon, (30, 42))
+        AddText(screen, 18, "Fahrenheit", weather_color, 50, 42)
+        screen.blit(empty_icon, (30, 60))
+        AddText(screen, 18, "Celcius", weather_color, 50, 60)
+        screen.blit(empty_icon, (30, 78))
+        AddText(screen, 18, "Kelvin", weather_color, 50, 78)
         screen.blit(selected_icon, coordinates_for_paw)
-        if(military_time): screen.blit(selected_icon, (100,21))
+        if(military_time): screen.blit(selected_icon, (30,21))
+        AddText(screen, 18, "Military Time", weather_color, 50, 21)
+
+        screen.blit(insert_city_bar, (140, 78))
+        AddText(screen, 20, user_input,(0,0,0), 140, 78)
+        AddText(screen, 20, "Change City :P", (0,0,0), 140, 55)
+        
+
+
+        
         
             
         

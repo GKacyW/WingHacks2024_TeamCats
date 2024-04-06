@@ -18,6 +18,7 @@ def get_weather(city, unit):
     if response.status_code == 200:
         data = response.json()
         temp = data['main']['temp']
+        type = data['weather'][0]['main']
         desc = data['weather'][0]['description']
         celc = int(temp) - 273.15
         far = round(celc * (9/5) + 32,2)
@@ -32,7 +33,7 @@ def get_weather(city, unit):
     else:
         print("uh oh")
     
-    return_list = [tempre, desc]
+    return_list = [tempre, type, desc]
     return return_list
 
 def get_time(city):
