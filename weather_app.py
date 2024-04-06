@@ -34,11 +34,13 @@ empty_icon = pygame.transform.scale(empty, (15,15))
 city = "Gainesville, Florida, USA"
 unit = "C"
 military_time = False
+military_time_toggle = Button(100, 21, empty_icon)
 
 settings = False
-
-
+clock = pygame.time.Clock()
+FPS = 60
 while running:
+    clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -140,7 +142,9 @@ while running:
         celcius_button = Button(100, 60, empty_icon)
         kelvin_button = Button(100, 78, empty_icon)
 
-        military_time_toggle = Button(100, 21, empty_icon)
+        screen.blit(empty_icon, (100, 21))
+        
+        
 
 
         if far_button.draw(screen) and settings:
@@ -151,10 +155,12 @@ while running:
             unit = "K"
 
         if military_time_toggle.draw(screen) and settings:
-            if military_time:
+            if(military_time):
                 military_time = False
             else:
                 military_time = True
+
+        
         
         
         screen.blit(empty_icon, (100, 42))
@@ -164,9 +170,9 @@ while running:
         screen.blit(empty_icon, (100, 78))
         AddText(screen, 18, "Kelvin", weather_color, 120, 78)
         screen.blit(selected_icon, coordinates_for_paw)
-        if military_time: 
-            screen.blit(selected_icon, (100, 21))
-            #military_time_toggle.action = False
+        if(military_time): screen.blit(selected_icon, (100,21))
+        
+            
         
         
 
