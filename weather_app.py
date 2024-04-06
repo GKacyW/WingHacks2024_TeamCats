@@ -42,15 +42,16 @@ while running:
     weather_condition = weather_data[1]
 
     #time determinations
-    now = datetime.datetime.now()
-    hour = now.hour
-    minute = now.minute
+    time_determinations = get_time(city)
+    day_or_night = time_determinations[1]
+    sunrise_time = time_determinations[0][0]
+    sunset_time = time_determinations[0][1]
+    local_time = time_determinations[0][2]
 
-    time = "day"
 
-    image_path = (weather_icons.get(weather_condition, {}).get(time))
+    image_path = (weather_icons.get(weather_condition, {}).get(day_or_night))
     image = pygame.image.load(image_path).convert_alpha()
-    bar_path = bar.get(time)
+    bar_path = bar.get(day_or_night)
     bar_ = pygame.image.load(bar_path).convert_alpha()
     settings_icon = pygame.image.load('images/settings.png')
 

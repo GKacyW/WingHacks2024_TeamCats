@@ -1,8 +1,9 @@
 import requests
 from suntime import Sun
-from datetime import datetime
+import datetime
 import pytz 
 from tzlocal import get_localzone
+import time
 
 api_key = 'a04ce32f6a47777c9dd312e6da67966b'
 #default settings
@@ -34,6 +35,7 @@ def get_weather(city, unit):
     return return_list
 
 def get_time(city):
+
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
 
     response = requests.get(url)
@@ -44,17 +46,33 @@ def get_time(city):
         lat = data['coord']['lat']
         
         sun = Sun(lat, lon)
-        date = datetime.today().date()
-        sun_rise = sun.get_local_sunrise_time(date)
-        sun_set = sun.get_local_sunset_time(date)
-        print(sun_set)
+        date = datetime.datetime.now()
 
-        utc_now = datetime.utcnow()
+
         local_tz = get_localzone()
-        local_datetime = local_tz.localize(sun_rise)
-        print(local_datetime)
+        #local_tz = pytz.timezone('Asia/Seoul')
+        local_time = datetime.datetime.now(local_tz)
+
+        sun_rise = sun.get_local_sunrise_time(date, local_tz)
+        sun_set = sun.get_local_sunset_time(date, local_tz)
+ 
+        
+
+        
+
+        if(sun_set.hour > local_time.hour > sun_rise.hour):
+            day_or_night = "day"
+            print(sun_rise, sun_set)
+        else:
+            day_or_night = "night"
+
+        return_list = [sun_rise, sun_set, local_time]
+        return (return_list, day_or_night)
+        
     else:
         print("uh oh")
 
+
+
 if __name__ == "__main__":
-    test = get_time("clearwater")
+    print(get_time("Clearwater"))
