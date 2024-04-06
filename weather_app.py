@@ -1,7 +1,7 @@
 import pygame
 from weather import *
 from datetime import timedelta, datetime
-
+from buttons import *
 pygame.init()
 screen = pygame.display.set_mode((400,450))
 clock = pygame.time.Clock()
@@ -25,6 +25,7 @@ bar = {
     "day": "images/day_bar.png",
     "night": "images/night_bar.png"
 }
+settings_icon = pygame.image.load('images/settings.png')
 
 city = "Gainesville, Florida, USA"
 unit = "C"
@@ -75,7 +76,7 @@ while running:
     weather = pygame.image.load(weather_picture).convert_alpha()
     bar_path = bar.get(day_or_night)
     bar_ = pygame.image.load(bar_path).convert_alpha()
-    settings_icon = pygame.image.load('images/settings.png')
+    
 
     if(day_or_night == "day"):
         weather_color = (0,0,0)
@@ -87,11 +88,9 @@ while running:
     if(not military_time):
         if(00 <= local_time_for_non_military.hour < 12):
             time_thing = font_size_7.render('AM', False, weather_color)
-            
         else:
             time_thing = font_size_7.render('PM', False, weather_color)
-        
-        screen.blit(time_thing, (360,50))
+
             
     date_display = font_size_25.render(date, False, weather_color)
     time_display = font_size_30.render(time, False, weather_color)
@@ -106,18 +105,26 @@ while running:
         sun = font_size_25.render(sunrise_time.strftime("%H:%M"), False, weather_color)
         sun_pic = pygame.image.load('images/sunrise.png').convert_alpha()
 
-    #click_pop_up = Rect()
+    setting_button = Button(353,10, settings_icon)
 
 
     screen.blit(bar_,(25,10))
     screen.blit(weather, (30,20))
-    screen.blit(settings_icon, (353,10))
+    #screen.blit(settings_icon, (353,10))
+    #setting_button.draw(screen)
     screen.blit(date_display, (260, 78))
     screen.blit(sun_pic, (135, 85))
     screen.blit(weather_description, (135,60))
     screen.blit(sun, (145, 87))
     screen.blit(time_display, (296, 50))
     screen.blit(temp_display, (135,25))
+    if(not military_time): screen.blit(time_thing, (360,50))
+
+    setting_button.clicked = False
+    if setting_button.draw(screen):
+        running = False
+        run_popup = True
+
     
 
     
@@ -125,8 +132,9 @@ while running:
     pygame.display.flip()
 
 run_popup = False
+
 while run_popup:
-       for event in pygame.event.get():
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run_pop = False
             running = True
