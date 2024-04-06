@@ -1,0 +1,119 @@
+from PIL import Image
+import pygame
+import requests
+import pygame.image
+from io import BytesIO
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+
+def main():
+    #spotify api setup
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id="a41b4ebf125a4727b0a6ed4d7c2ebba3",
+                                               client_secret="b1253ba5b1a141dba8e93faf2abb8c98",
+                                               redirect_uri="http://localhost/",
+                                               scope="user-read-currently-playing, user-library-read, user-top-read, user-read-playback-state, user-modify-playback-state"))
+    
+    #setting up display
+    pygame.init()
+    screen = pygame.display.set_mode((400, 450))
+    run_app = True
+    white = (255, 255, 255)
+    blue = (0, 0, 128)
+    pygame.display.set_caption('Show Text')
+    font = pygame.font.Font('VT323-Regular.ttf', 20) #sets the font for all the text
+
+    #displaying play/pause button
+    paused = False
+    pauseButton = pygame.image.load('pause.jpeg').convert()
+    pauseButton = pygame.transform.scale(pauseButton, (50, 50))
+    buttonRect = pauseButton.get_rect()
+    buttonRect.center = (350, 400)
+    playButton = pygame.image.load('play.jpg').convert()
+    playButton = pygame.transform.scale(playButton, (50, 50))
+
+    #displaying next button
+    nextButton = pygame.image.load('next.png').convert()
+    nextButton = pygame.transform.scale(nextButton, (50, 50))
+    nextRect = nextButton.get_rect()
+    nextRect.center = (400, 400)
+
+    #displaying previous button
+    prevButton = pygame.image.load('previous.png').convert()
+    prevButton = pygame.transform.scale(prevButton, (50, 50))
+    prevRect = nextButton.get_rect()
+    prevRect.center = (300, 400)
+
+    #while loop for displaying everything
+    while run_app:
+        #coloring in screen
+        screen.fill((184, 215, 233))
+
+        #managing events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_app = False
+
+            #mouse clicked
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                #play button is clicked
+                if buttonRect.collidepoint(pos) :
+                    if not paused: #was playing
+                        sp.pause_playback(device_id=None)
+                        paused = True
+                    else : #was paused
+                        sp.start_playback(device_id=None, context_uri=None, uris=None, offset=None, position_ms=None)
+                        paused = False
+                if nextRect.collidepoint(pos) :
+                    sp.next_track(device_id=None)
+                if prevRect.collidepoint(pos) :
+                    sp.previous_track(device_id=None)
+                
+        
+        #displaying lines
+        pygame.draw.line(screen, (157, 163, 245), 
+                 [50, 440], 
+                 [350, 440], 5)
+        songProgress = (sp.current_playback(market=None, additional_types=None))['progress_ms'] / (sp.current_playback(market="US", additional_types=None))['item']['duration_ms']
+        songProgress = songProgress * 300
+        pygame.draw.line(screen, (86, 94, 204), 
+                 [50, 440], 
+                 [songProgress + 50, 440], 5)
+
+        #displaying album cover image
+        url = (sp.current_playback(market=None, additional_types=None))['item']['album']['images'][0]['url']
+        img = Image.open(requests.get(url, stream=True).raw)
+        smallImg = img.resize((40,40))
+        mode = smallImg.mode
+        size = smallImg.size
+        data = smallImg.tobytes()
+        py_image = pygame.image.fromstring(data, size, mode)
+        albumRect = py_image.get_rect()
+        albumRect.center = (100, 410)
+        screen.blit(py_image, albumRect)
+        
+        #displaying song title
+        songText = font.render((sp.current_playback(market="US", additional_types=None))['item']['name'], True, white, None)
+        songTextRect = songText.get_rect()
+        songTextRect.center = (200, 400)
+        screen.blit(songText, songTextRect)
+
+        #displaying artist name
+        artistText = font.render((sp.current_playback(market="US", additional_types=None))['item']['artists'][0]['name'], True, white, None)
+        artistTextRect = artistText.get_rect()
+        artistTextRect.center = (200, 420)
+        screen.blit(artistText, artistTextRect)
+
+        #displaying buttons
+        if paused :
+            screen.blit(playButton, buttonRect)
+        if not paused :
+            screen.blit(pauseButton, buttonRect)
+        screen.blit(prevButton, prevRect)
+        screen.blit(nextButton, nextRect)
+
+        pygame.display.update()
+
+    pygame.quit()
+
+main()
