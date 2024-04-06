@@ -10,24 +10,21 @@ class Button():
         self.rect.topleft = (x,y)
         self.clicked = False
     
-    def draw(self, screen):
-        action = False
+    def draw(self, surface):
+            action = False
+            #get mouse position
+            pos = pygame.mouse.get_pos()
 
-        pos = pygame.mouse.get_pos()
+            #check mouseover and clicked conditions
+            if self.rect.collidepoint(pos):
+                if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                    self.clicked = True
+                    action = True
 
-        if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-                self.clicked = True
-                action = True
-                print("h")
-            
-        if pygame.mouse.get_pressed()[0] == 0:
-            self.clicked = False
-        
-        
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+            #draw button on screen
+            surface.blit(self.image, (self.rect.x, self.rect.y))
 
-        return action
+            return action
 
 def AddText(screen, font_size, words, color, x, y):
     Font = pygame.font.Font('VT323-Regular.ttf', font_size)
