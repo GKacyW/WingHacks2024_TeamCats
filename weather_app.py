@@ -83,58 +83,50 @@ while running:
     else:
         weather_color = (255,255,255)
 
-    date = local_time.strftime("%Y-%m-%d")
-    time = local_time.strftime("%H:%M")
+    
     if(not military_time):
         if(00 <= local_time_for_non_military.hour < 12):
-            time_thing = font_size_7.render('AM', False, weather_color)
+            time_thing = "AM"
         else:
-            time_thing = font_size_7.render('PM', False, weather_color)
+            time_thing = "PM"
 
             
-    date_display = font_size_25.render(date, False, weather_color)
-    time_display = font_size_30.render(time, False, weather_color)
+
+    
+    
+
 
     weather_description = font_size_15.render(weather_condition, False, weather_color)
-    temp_display = font_size_50.render(temp, False, weather_color)
+    
 
     if( day_or_night == "day"):
-        sun = font_size_15.render(sunset_time.strftime("%H:%M"), False, weather_color)
+        sun = sunset_time.strftime("%H:%M")
         sun_pic = pygame.image.load('images/sunset.png').convert_alpha()
     else:
-        sun = font_size_25.render(sunrise_time.strftime("%H:%M"), False, weather_color)
+        sun = sunrise_time.strftime("%H:%M")
         sun_pic = pygame.image.load('images/sunrise.png').convert_alpha()
 
-    setting_button = Button(353,10, settings_icon)
 
 
+    #Images
     screen.blit(bar_,(25,10))
     screen.blit(weather, (30,20))
-    #screen.blit(settings_icon, (353,10))
-    #setting_button.draw(screen)
-    screen.blit(date_display, (260, 78))
     screen.blit(sun_pic, (135, 85))
-    screen.blit(weather_description, (135,60))
-    screen.blit(sun, (145, 87))
-    screen.blit(time_display, (296, 50))
-    screen.blit(temp_display, (135,25))
-    if(not military_time): screen.blit(time_thing, (360,50))
+    
 
+
+    # Text
+    AddText(screen, 20, sun, weather_color, 145, 87)
+    if(not military_time): AddText(screen, 18, time_thing, weather_color, 360, 50)
+    AddText(screen, 25, local_time.strftime("%Y-%m-%d"),weather_color, 260, 78)
+    AddText(screen, 30, local_time.strftime("%H:%M"), weather_color, 296, 50)
+    AddText(screen, 45, temp, weather_color, 135, 25)
+    AddText(screen, 18, weather_condition, weather_color, 135, 60)
+    
+    setting_button = Button(353, 10, settings_icon)
     setting_button.clicked = False
-    if setting_button.draw(screen):
-        running = False
-        run_popup = True
-
     
 
     
     
     pygame.display.flip()
-
-run_popup = False
-
-while run_popup:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run_pop = False
-            running = True

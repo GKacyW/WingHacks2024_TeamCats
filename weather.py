@@ -8,6 +8,7 @@ import time
 api_key = 'a04ce32f6a47777c9dd312e6da67966b'
 #default settings
 
+
 def get_weather(city, unit):
 
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'

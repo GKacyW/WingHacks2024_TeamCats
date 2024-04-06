@@ -19,6 +19,7 @@ class Button():
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
                 action = True
+                print("h")
             
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
@@ -30,5 +31,5 @@ class Button():
 
 def AddText(screen, font_size, words, color, x, y):
     Font = pygame.font.Font('VT323-Regular.ttf', font_size)
-    text = Font.render(words, False, color)
+    text = Font.render(words, True, color)
     screen.blit(text, (x, y))
