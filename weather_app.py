@@ -46,15 +46,17 @@ while running:
     hour = now.hour
     minute = now.minute
 
-    time = "night"
+    time = "day"
 
     image_path = (weather_icons.get(weather_condition, {}).get(time))
     image = pygame.image.load(image_path).convert_alpha()
     bar_path = bar.get(time)
     bar_ = pygame.image.load(bar_path).convert_alpha()
+    settings_icon = pygame.image.load('images/settings.png')
 
     screen.blit(bar_,(25,10))
     screen.blit(image, (30,20))
+    screen.blit(settings_icon, (353,10))
     
     
     pygame.display.flip()
