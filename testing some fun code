@@ -8,8 +8,8 @@ from spotipy.oauth2 import SpotifyOAuth
 
 def main():
     #spotify api setup
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id="a41b4ebf125a4727b0a6ed4d7c2ebba3",
-                                               client_secret="b1253ba5b1a141dba8e93faf2abb8c98",
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id="",
+                                               client_secret="",
                                                redirect_uri="http://localhost/",
                                                scope="user-read-currently-playing, user-library-read, user-top-read, user-read-playback-state, user-modify-playback-state"))
     
