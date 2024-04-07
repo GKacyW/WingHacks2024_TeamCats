@@ -1,6 +1,6 @@
 python3 -m venv tutorial-env
 source tutorial-env/bin/activate
 python3 -m pip install spotipy
-SPOTIPY_CLIENT_ID=a41b4ebf125a4727b0a6ed4d7c2ebba3
-SPOTIPY_CLIENT_SECRET=b1253ba5b1a141dba8e93faf2abb8c98
+SPOTIPY_CLIENT_ID=
+SPOTIPY_CLIENT_SECRET=
 SPOTIPY_REDIRECT_URI = 'https://localhost:8888/callback'
