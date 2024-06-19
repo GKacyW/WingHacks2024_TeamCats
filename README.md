@@ -1,4 +1,4 @@
-Created for WiNGHacks 2024
+Created for WiNGHacks 2024 \n
 For demo and project desciption: https://devpost.com/software/cat-5u4qfp
 
 
