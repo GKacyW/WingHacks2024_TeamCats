@@ -4,7 +4,7 @@ from datetime import datetime
 import pytz 
 from tzlocal import get_localzone
 
-api_key = 'a04ce32f6a47777c9dd312e6da67966b'
+#api_key = 
 #default settings
 
 def get_weather(city, unit):
